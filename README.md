@@ -1,5 +1,5 @@
 # DevOps_training
-This repository is a centralised location for all the documentation I've done throughout the training as a DevOps engineer at Sparta Global.
+This repository serves as a centralized location for all the documentation I have created while training as a DevOps engineer at Sparta Global.
 
 - [x] **Week One** - Business, Agile & Scrum :briefcase:
 - [x] **Week Two** - [Python and Git](https://github.com/Hussainajhar8/tech257_python) 
