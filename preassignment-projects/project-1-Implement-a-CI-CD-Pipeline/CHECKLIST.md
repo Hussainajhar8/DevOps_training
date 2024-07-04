@@ -45,6 +45,7 @@
 - [ ] Create deployment manifests (`deployment.yaml`, `service.yaml`, etc.)
 
 ## CI/CD Pipeline Implementation
+
 ### Pipeline Configuration
 - [ ] Configure Jenkins pipelines (using Jenkinsfile)
 - [ ] Automate build, test, and deployment processes
