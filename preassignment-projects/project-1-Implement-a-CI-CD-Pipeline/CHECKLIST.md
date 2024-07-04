@@ -35,6 +35,7 @@
 - [ ] Create `docker-compose.yml` file for multi-container applications
 
 ## Kubernetes Deployment
+
 ### Kubernetes Cluster Setup
 - [ ] Set up a Kubernetes cluster on AWS (EKS) or Azure (AKS)
 
