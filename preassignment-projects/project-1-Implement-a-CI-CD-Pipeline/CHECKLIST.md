@@ -19,6 +19,7 @@
 - [ ] Include scripts for building, testing, and deploying applications
 
 ### Version Control
+
 - [ ] Create a GitHub repository for code and scripts
 - [ ] Implement branching strategies (e.g., Git Flow)
 
