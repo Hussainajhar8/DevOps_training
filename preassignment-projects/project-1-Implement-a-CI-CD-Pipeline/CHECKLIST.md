@@ -1,16 +1,20 @@
 # DevOps Project Checklist – CI/CD Pipeline Implementation
 
 ## Initial Setup and Planning
+
 - [ ] Choose Cloud Provider (AWS/Azure)
 - [ ] Set up project management board (Trello/Jira/GitHub Projects)
 
 ## Automated CI/CD Pipeline Setup
+
 ### Jenkins Installation
+
 - [ ] Install Jenkins on a server or use Jenkins in a Docker container
 - [ ] Configure Jenkins for access
 - [ ] Install necessary plugins (e.g., Git, Docker, Kubernetes plugins)
 
 ### Jenkins Configuration Scripts
+
 - [ ] Write configuration scripts for Jenkins jobs
 - [ ] Include scripts for building, testing, and deploying applications
 
