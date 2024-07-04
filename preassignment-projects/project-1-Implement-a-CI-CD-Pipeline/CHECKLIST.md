@@ -31,6 +31,7 @@
 - [ ] Optimize and secure Docker images
 
 ### Docker Compose (if needed)
+
 - [ ] Create `docker-compose.yml` file for multi-container applications
 
 ## Kubernetes Deployment
