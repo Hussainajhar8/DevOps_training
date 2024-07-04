@@ -41,6 +41,7 @@
 - [ ] Set up a Kubernetes cluster on AWS (EKS) or Azure (AKS)
 
 ### Kubernetes Manifests
+
 - [ ] Create deployment manifests (`deployment.yaml`, `service.yaml`, etc.)
 
 ## CI/CD Pipeline Implementation
