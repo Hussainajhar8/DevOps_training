@@ -24,6 +24,7 @@
 - [ ] Implement branching strategies (e.g., Git Flow)
 
 ## Containerization with Docker
+
 ### Dockerfile Creation
 - [ ] Write Dockerfiles for application(s)
 - [ ] Optimize and secure Docker images
