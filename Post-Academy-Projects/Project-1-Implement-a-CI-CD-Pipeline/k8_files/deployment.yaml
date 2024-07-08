@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-1-sparta-app-deployment
+  labels:
+    app: project-1-sparta-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: project-1-sparta-app
+  template:
+    metadata:
+      labels:
+        app: project-1-sparta-app
+    spec:
+      containers:
+      - name: project-1-sparta-app
+        image: hussainajhar32/project-1-sparta-app
+        ports:
+        - containerPort: 80
+        env:
+        - name: NODE_ENV
+          value: "production"
+        # Add any other environment variables here
