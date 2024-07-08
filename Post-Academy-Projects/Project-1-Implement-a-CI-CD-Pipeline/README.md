@@ -65,3 +65,9 @@ CMD node app.js
   ![alt text](img/image.png)
 - Check that the home page and other routes (e.g., /fibonacci/10) work correctly.
   ![alt text](img/image-1.png)
+
+**3. Tag and push the Docker Image**
+- Tag the Docker image: `docker tag my-node-app:latest hussainajhar32/project-1-sparta-app:latest`
+- Push the Docker Image: `docker push hussainajhar32/project-1-sparta-app:latest`
+- Verify that the Docker image is successfully pushed to Docker Hub. 
+  ![alt text](img/image-2.png)
