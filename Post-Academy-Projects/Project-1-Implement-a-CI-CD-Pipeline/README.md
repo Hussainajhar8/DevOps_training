@@ -62,6 +62,6 @@ CMD node app.js
 - Build the image `docker build -t my-node-app .`
 - Run the container `docker run -p 3000:3000 my-node-app`
 - Navigate to http://localhost:3000 and confirm it's working.
-  ![alt text](image.png)
+  ![alt text](img/image.png)
 - Check that the home page and other routes (e.g., /fibonacci/10) work correctly.
-  ![alt text](image-1.png)
+  ![alt text](img/image-1.png)
