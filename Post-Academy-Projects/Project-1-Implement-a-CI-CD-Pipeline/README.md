@@ -39,6 +39,7 @@ sudo systemctl start jenkins
 1. **Create Dockerfile**
 
 In the app repo create the Dockerfile.
+
 ```dockerfile
 # syntax=docker/dockerfile:1
  
@@ -61,18 +62,19 @@ CMD node app.js
 ```
 
 2. **Test the Dockerfile**
+
 - Build the image `docker build -t my-node-app .`
 - Run the container `docker run -p 3000:3000 my-node-app`
 - Navigate to http://localhost:3000 and confirm it's working.
   ![alt text](img/image.png)
 - Check that the home page and other routes (e.g., /fibonacci/10) work correctly.
-  ![alt text](img/image-1.png)
+  ![alt text](image-1.png)
 
-3. **Tag and push the Docker Image**
+1. **Tag and push the Docker Image**
 - Tag the Docker image: `docker tag my-node-app:latest hussainajhar32/project-1-sparta-app:latest`
 - Push the Docker Image: `docker push hussainajhar32/project-1-sparta-app:latest`
 - Verify that the Docker image is successfully pushed to Docker Hub. 
-  ![alt text](img/image-2.png)
+  ![alt text](image-2.png)
 
 ## Kubernetes Deployment and Service Setup
 
@@ -91,6 +93,6 @@ kubectl apply -f ingress.yaml
 
 1. **Verify the Deployment:**
 - Verify that pods are running and the service is created: `kubectl get pods`, `kubectl get services`
-  ![alt text](img/image-3.png)
+  ![alt text](image-3.png)
 - Verify the application is running on `localhost:30001`
-  ![alt text](img/image-4.png)
+  ![alt text](image-4.png)

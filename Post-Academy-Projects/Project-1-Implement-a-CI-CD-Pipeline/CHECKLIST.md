@@ -2,32 +2,32 @@
 
 ## Initial Setup and Planning
 
-- [ ] Choose Cloud Provider (AWS/Azure)
-- [ ] Set up project management board (Trello/Jira/GitHub Projects)
+- [x] Choose Cloud Provider (AWS/Azure)
+- [x] Set up project management board (Trello/Jira/GitHub Projects)
 
 ## Automated CI/CD Pipeline Setup
 
 ### Jenkins Installation
 
-- [ ] Install Jenkins on a server or use Jenkins in a Docker container
+- [x] Install Jenkins on a server or use Jenkins in a Docker container
 - [ ] Configure Jenkins for access
 - [ ] Install necessary plugins (e.g., Git, Docker, Kubernetes plugins)
 
 ### Jenkins Configuration Scripts
 
-- [ ] Write configuration scripts for Jenkins jobs
-- [ ] Include scripts for building, testing, and deploying applications
+- [x] Write configuration scripts for Jenkins jobs
+- [x] Include scripts for building, testing, and deploying applications
 
 ### Version Control
 
-- [ ] Create a GitHub repository for code and scripts
-- [ ] Implement branching strategies (e.g., Git Flow)
+- [x] Create a GitHub repository for code and scripts
+- [x] Implement branching strategies (e.g., Git Flow)
 
 ## Containerization with Docker
 
 ### Dockerfile Creation
 
-- [ ] Write Dockerfiles for application(s)
+- [x] Write Dockerfiles for application(s)
 - [ ] Optimize and secure Docker images
 
 ### Docker Compose (if needed)
@@ -42,7 +42,7 @@
 
 ### Kubernetes Manifests
 
-- [ ] Create deployment manifests (`deployment.yaml`, `service.yaml`, etc.)
+- [x] Create deployment manifests (`deployment.yaml`, `service.yaml`, etc.)
 
 ## CI/CD Pipeline Implementation
 
@@ -53,7 +53,7 @@
 
 ### Integration with GitHub
 
-- [ ] Set up webhooks in GitHub to trigger Jenkins pipelines on code push events
+- [x] Set up webhooks in GitHub to trigger Jenkins pipelines on code push events
 
 ### Deployment to Kubernetes
 
