@@ -4,9 +4,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'project-1-sparta-app:latest'
         DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
-        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
-        GIT_CREDENTIALS = 'github-credentials'
-        KUBERNETES_CREDENTIALS = 'kube-config'
+        DOCKER_REGISTRY_CREDENTIALS = 'ajhar-dockerhub-credentials'
+        GIT_CREDENTIALS = 'ajhar-github-credentials'
+        KUBERNETES_CREDENTIALS = 'ajhar-kube-config'
         KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
         KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
         DEV_BRANCH = 'dev'
