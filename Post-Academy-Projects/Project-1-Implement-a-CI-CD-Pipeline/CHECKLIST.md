@@ -77,11 +77,11 @@
 
 ### Task Tracking
 
-- [ ] Track tasks, progress, and milestones on the project management board
+- [x] Track tasks, progress, and milestones on the project management board
 
 ### Regular Updates
 
-- [ ] Regularly update the board with task status and blockers
+- [x] Regularly update the board with task status and blockers
 
 ## Deliverables Preparation
 
@@ -101,15 +101,15 @@
 
 ### Pipeline and Deployment
 
-- [ ] AWS or Azure
-- [ ] Jenkins
-- [ ] Docker
-- [ ] Kubernetes
+- [x] AWS or Azure
+- [x] Jenkins
+- [x] Docker
+- [x] Kubernetes
 
 ### Documentation
 
-- [ ] Markdown for README and other guides
+- [x] Markdown for README and other guides
 
 ### Project Management
 
-- [ ] Jira, Trello, or GitHub Project for task management and tracking
+- [x] Jira, Trello, or GitHub Project for task management and tracking
