@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/your-github-repo.git'
+                git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training/tree/main/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app'
             }
         }
 
@@ -52,8 +52,8 @@ pipeline {
         stage('Merge to Main') {
             steps {
                 script {
-                    sh 'git config --global user.email "you@example.com"'
-                    sh 'git config --global user.name "Your Name"'
+                    sh 'git config --global user.email "hussainajhar8@gmail.com"'
+                    sh 'git config --global user.name "hussainajhar8"'
                     sh """
                     git checkout ${MAIN_BRANCH}
                     git merge ${DEV_BRANCH}
