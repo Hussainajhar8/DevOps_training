@@ -16,7 +16,7 @@
     ```bash
    sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
      https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-     
+
    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
      https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
      /etc/apt/sources.list.d/jenkins.list > /dev/null
@@ -121,90 +121,90 @@
 
    ```groovy
    pipeline {
-    agent any
+       agent any
 
-    environment {
-        DOCKER_IMAGE = 'project-1-sparta-app:latest'
-        DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
-        DOCKER_REGISTRY_CREDENTIALS = 'ajhar-dockerhub-credentials'
-        GIT_CREDENTIALS = 'ajhar-github-credentials'
-        KUBERNETES_CREDENTIALS = 'ajhar-kube-config'
-        KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
-        KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
-        DEV_BRANCH = 'dev'
-        MAIN_BRANCH = 'main'
-    }
+       environment {
+           DOCKER_IMAGE = 'project-1-sparta-app:latest'
+           DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
+           DOCKER_REGISTRY_CREDENTIALS = 'ajhar-dockerhub-credentials'
+           GIT_CREDENTIALS = 'ajhar-github-credentials'
+           KUBERNETES_CREDENTIALS = 'ajhar-kube-config'
+           KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
+           KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
+           DEV_BRANCH = 'dev'
+           MAIN_BRANCH = 'main'
+       }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/your-github-repo.git'
-            }
-        }
+       stages {
+           stage('Checkout') {
+               steps {
+                   git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training/tree/main/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app'
+               }
+           }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("${DOCKER_REGISTRY}:${env.BUILD_ID}")
-                }
-            }
-        }
+           stage('Build Docker Image') {
+               steps {
+                   script {
+                       dockerImage = docker.build("${DOCKER_REGISTRY}:${env.BUILD_ID}")
+                   }
+               }
+           }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    // Replace with your testing commands
-                    sh 'npm install'
-                    sh 'npm test'
-                }
-            }
-        }
+           stage('Run Tests') {
+               steps {
+                   script {
+                       sh 'npm install'
+                       sh 'npm test'
+                   }
+               }
+           }
 
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry('', "${DOCKER_REGISTRY_CREDENTIALS}") {
-                        dockerImage.push("${env.BUILD_ID}")
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-        }
+           stage('Push Docker Image') {
+               steps {
+                   script {
+                       docker.withRegistry('', "${DOCKER_REGISTRY_CREDENTIALS}") {
+                           dockerImage.push("${env.BUILD_ID}")
+                           dockerImage.push('latest')
+                       }
+                   }
+               }
+           }
 
-        stage('Merge to Main') {
-            steps {
-                script {
-                    sh 'git config --global user.email "you@example.com"'
-                    sh 'git config --global user.name "Your Name"'
-                    sh """
-                    git checkout ${MAIN_BRANCH}
-                    git merge ${DEV_BRANCH}
-                    git push origin ${MAIN_BRANCH}
-                    """
-                }
-            }
-        }
+           stage('Merge to Main') {
+               steps {
+                   script {
+                       sh 'git config --global user.email "hussainajhar8@gmail.com"'
+                       sh 'git config --global user.name "hussainajhar8"'
+                       sh """
+                       git checkout ${MAIN_BRANCH}
+                       git merge ${DEV_BRANCH}
+                       git push origin ${MAIN_BRANCH}
+                       """
+                   }
+               }
+           }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    withKubeConfig([credentialsId: "${KUBERNETES_CREDENTIALS}"]) {
-                        sh """
-                        kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
-                        kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
-                        """
-                    }
-                }
-            }
-        }
-    }
+           stage('Deploy to Kubernetes') {
+               steps {
+                   script {
+                       withKubeConfig([credentialsId: "${KUBERNETES_CREDENTIALS}"]) {
+                           sh """
+                           kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
+                           kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
+                           """
+                       }
+                   }
+               }
+           }
+       }
 
-    post {
-        always {
-            cleanWs()
-        }
-    }
+       post {
+           always {
+               cleanWs()
+           }
+       }
    }
+
    ```
 
 4. **Add the credentials for github, docker and kubernetes.**
