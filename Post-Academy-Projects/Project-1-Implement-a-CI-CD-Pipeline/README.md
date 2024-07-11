@@ -44,6 +44,35 @@
    sudo systemctl start jenkins
    ```
 
+6. **Download docker on Jenkins Server**
+   ```bash
+   # Uninstall conflicting packages
+   for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+   # Set up Docker's apt repository.
+   # Add Docker's official GPG key:
+   sudo apt-get update
+   sudo apt-get install ca-certificates curl
+   sudo install -m 0755 -d /etc/apt/keyrings
+   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+   sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+   # Add the repository to Apt sources:
+   echo \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   sudo apt-get update
+
+   # Install latest version
+   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+   # Add Jenkins User to Docker Group
+   # Ensure the Jenkins user has permission to run Docker commands:
+   sudo usermod -aG docker jenkins
+   sudo systemctl restart jenkins
+   ```
+
 ## Set up Dockerfile
 
 1. **Create Dockerfile**
@@ -114,7 +143,7 @@
 1. **Configure the webhook on GitHub.**
    - Go onto the github repo
    - Go to settings and click on webhooks
-   - Add Jenkins payload url `http://44.223.26.166:8080/github-webhook/`
+   - Add Jenkins payload url `http://3.255.253.66:8080/github-webhook/`
 
 2. **Create an item as a pipeline in Jenkins.**
    - In Jenkins server create a new job
@@ -130,9 +159,9 @@
        environment {
            DOCKER_IMAGE = 'project-1-sparta-app:latest'
            DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
-           DOCKER_REGISTRY_CREDENTIALS = 'ajhar-dockerhub-credentials'
-           GIT_CREDENTIALS = 'ajhar-github-credentials'
-           KUBERNETES_CREDENTIALS = 'ajhar-kube-config'
+           DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
+           GIT_CREDENTIALS = 'github-credentials'
+           KUBERNETES_CREDENTIALS = 'kube-config'
            KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
            KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
            DEV_BRANCH = 'dev'
@@ -142,7 +171,19 @@
        stages {
            stage('Checkout') {
                steps {
-                   git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training/tree/main/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app'
+                   git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training.git'
+               }
+           }
+           
+           stage('Change Directory') {
+               steps {
+                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                       // This will change the directory for subsequent steps within this block
+                       script {
+                           echo $(pwd)
+                           echo "Changed to app directory"
+                       }
+                   }
                }
            }
 
@@ -157,6 +198,7 @@
            stage('Run Tests') {
                steps {
                    script {
+                       // Replace with your testing commands
                        sh 'npm install'
                        sh 'npm test'
                    }
