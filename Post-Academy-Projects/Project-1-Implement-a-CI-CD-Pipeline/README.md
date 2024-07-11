@@ -1,6 +1,6 @@
 # Project-1-Implement-a-CI-CD-Pipeline
 
-## Create Jenkins Server
+## Create and Set-Up Jenkins Server
 
 1. **Setup an EC2 Instance on AWS**
 
@@ -67,10 +67,23 @@
    # Install latest version
    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-   # Add Jenkins User to Docker Group
+   # 
    # Ensure the Jenkins user has permission to run Docker commands:
    sudo usermod -aG docker jenkins
    sudo systemctl restart jenkins
+   ```
+
+7. **Add Jenkins User to Docker Group**
+   ```bash
+   # Ensure the Jenkins user has permission to run Docker commands:
+   sudo usermod -aG docker jenkins
+   sudo systemctl restart jenkins
+   ```
+
+8. **Install Nodejs**
+   ```bash
+   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo DEBIAN_FRONTEND=noninteractive -E bash -
+   sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
    ```
 
 ## Set up Dockerfile
@@ -138,19 +151,26 @@
    - Verify the application is running on `localhost:30001`
      ![alt text](img/image-4.png)
 
-## Configure Jenkins Job
+## Configure Jenkins
 
 1. **Configure the webhook on GitHub.**
    - Go onto the github repo
    - Go to settings and click on webhooks
-   - Add Jenkins payload url `http://3.255.253.66:8080/github-webhook/`
+   - Add Jenkins payload url `http://<public-ip>:8080/github-webhook/`
 
-2. **Create an item as a pipeline in Jenkins.**
+2. **Configure Jenkins**
+   - Create user
+   - Go to `Manage Jenkins` -> `Settings` -> `Security`
+   - Scroll to `Git Host Key Verification Configuration` and set `Host Key Verification Strategy` to `Accept First connection` then click `Save`
+   - Install Git, Docker, Docker pipeline and Kubernetes plugins
+   - Create the credentials required for your pipeline.
+  
+3. **Create an item as a pipeline in Jenkins.**
    - In Jenkins server create a new job
    - Select Pipeline
    - Configure appropriately
 
-3. **Add Jenkinsfile as the pipeline script.**
+4. **Add Jenkinsfile as the pipeline script.**
 
    ```groovy
    pipeline {
@@ -253,7 +273,7 @@
 
    ```
 
-4. **Add the credentials for github, docker and kubernetes.**
+1.  **Add the credentials for github, docker and kubernetes.**
    - For Github credentials, create `Secret text` and add a personal access token
    - For Dockerhub, click on `Username with password` and add your details
    - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
