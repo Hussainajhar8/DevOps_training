@@ -4,9 +4,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'project-1-sparta-app:latest'
         DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
-        DOCKER_REGISTRY_CREDENTIALS = 'ajhar-dockerhub-credentials'
-        GIT_CREDENTIALS = 'ajhar-github-credentials'
-        KUBERNETES_CREDENTIALS = 'ajhar-kube-config'
+        DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
+        GIT_CREDENTIALS = 'github-credentials'
+        KUBERNETES_CREDENTIALS = 'kube-config'
         KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
         KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
         DEV_BRANCH = 'dev'
@@ -16,7 +16,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training/tree/main/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app'
+                git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training.git'
+            }
+        }
+        
+        stage('Change Directory') {
+            steps {
+                dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                    // This will change the directory for subsequent steps within this block
+                    script {
+                        echo $(pwd)
+                        echo "Changed to app directory"
+                    }
+                }
             }
         }
 
