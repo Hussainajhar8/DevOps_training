@@ -207,6 +207,22 @@
                }
            }
 
+           stage('Merge to Main') {
+               steps {
+                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                       script {
+                           sh 'git config --global user.email "hussainajhar8@gmail.com"'
+                           sh 'git config --global user.name "hussainajhar8"'
+                           sh """
+                           git checkout ${MAIN_BRANCH}
+                           git merge ${DEV_BRANCH}
+                           git push origin ${MAIN_BRANCH}
+                           """
+                       }
+                   }
+               }
+           }
+
            stage('Build Docker Image') {
                steps {
                    dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
@@ -225,22 +241,6 @@
                                dockerImage.push("${env.BUILD_ID}")
                                dockerImage.push('latest')
                            }
-                       }
-                   }
-               }
-           }
-
-           stage('Merge to Main') {
-               steps {
-                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
-                       script {
-                           sh 'git config --global user.email "hussainajhar8@gmail.com"'
-                           sh 'git config --global user.name "hussainajhar8"'
-                           sh """
-                           git checkout ${MAIN_BRANCH}
-                           git merge ${DEV_BRANCH}
-                           git push origin ${MAIN_BRANCH}
-                           """
                        }
                    }
                }

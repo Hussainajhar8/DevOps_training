@@ -6,6 +6,7 @@ pipeline {
         DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
         GIT_CREDENTIALS = 'github-credentials'
+        SSH_AGENT_CREDENTIALS = 'github-ssh-agent'
         KUBERNETES_CREDENTIALS = 'kube-config'
         KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
         KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
@@ -27,6 +28,24 @@ pipeline {
                         // Replace with your testing commands
                         sh 'npm install'
                         sh 'npm test'
+                    }
+                }
+            }
+        }
+
+        stage('Merge to Main') {
+            steps {
+                dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app') {
+                    script {
+                        sshagent(['github-ssh-agent']) {
+                            sh 'git config --global user.email "hussainajhar8@gmail.com"'
+                            sh 'git config --global user.name "hussainajhar8"'
+                            sh """
+                            git checkout ${MAIN_BRANCH}
+                            git merge ${DEV_BRANCH}
+                            git push git@github.com:Hussainajhar8/DevOps_training.git ${MAIN_BRANCH}
+                            """
+                        }
                     }
                 }
             }
@@ -55,21 +74,7 @@ pipeline {
             }
         }
 
-        stage('Merge to Main') {
-            steps {
-                dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
-                    script {
-                        sh 'git config --global user.email "hussainajhar8@gmail.com"'
-                        sh 'git config --global user.name "hussainajhar8"'
-                        sh """
-                        git checkout ${MAIN_BRANCH}
-                        git merge ${DEV_BRANCH}
-                        git push origin ${MAIN_BRANCH}
-                        """
-                    }
-                }
-            }
-        }
+
 
         stage('Deploy to Kubernetes') {
             steps {
