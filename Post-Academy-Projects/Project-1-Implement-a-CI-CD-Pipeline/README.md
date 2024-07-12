@@ -194,14 +194,14 @@
                    git branch: "${env.DEV_BRANCH}", credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Hussainajhar8/DevOps_training.git'
                }
            }
-           
-           stage('Change Directory') {
+
+           stage('Run Tests') {
                steps {
                    dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
-                       // This will change the directory for subsequent steps within this block
                        script {
-                           echo $(pwd)
-                           echo "Changed to app directory"
+                           // Replace with your testing commands
+                           sh 'npm install'
+                           sh 'npm test'
                        }
                    }
                }
@@ -209,28 +209,22 @@
 
            stage('Build Docker Image') {
                steps {
-                   script {
-                       dockerImage = docker.build("${DOCKER_REGISTRY}:${env.BUILD_ID}")
-                   }
-               }
-           }
-
-           stage('Run Tests') {
-               steps {
-                   script {
-                       // Replace with your testing commands
-                       sh 'npm install'
-                       sh 'npm test'
+                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                       script {
+                           dockerImage = docker.build("${DOCKER_REGISTRY}:${env.BUILD_ID}")
+                       }
                    }
                }
            }
 
            stage('Push Docker Image') {
                steps {
-                   script {
-                       docker.withRegistry('', "${DOCKER_REGISTRY_CREDENTIALS}") {
-                           dockerImage.push("${env.BUILD_ID}")
-                           dockerImage.push('latest')
+                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                       script {
+                           docker.withRegistry('', "${DOCKER_REGISTRY_CREDENTIALS}") {
+                               dockerImage.push("${env.BUILD_ID}")
+                               dockerImage.push('latest')
+                           }
                        }
                    }
                }
@@ -238,14 +232,16 @@
 
            stage('Merge to Main') {
                steps {
-                   script {
-                       sh 'git config --global user.email "hussainajhar8@gmail.com"'
-                       sh 'git config --global user.name "hussainajhar8"'
-                       sh """
-                       git checkout ${MAIN_BRANCH}
-                       git merge ${DEV_BRANCH}
-                       git push origin ${MAIN_BRANCH}
-                       """
+                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                       script {
+                           sh 'git config --global user.email "hussainajhar8@gmail.com"'
+                           sh 'git config --global user.name "hussainajhar8"'
+                           sh """
+                           git checkout ${MAIN_BRANCH}
+                           git merge ${DEV_BRANCH}
+                           git push origin ${MAIN_BRANCH}
+                           """
+                       }
                    }
                }
            }
@@ -273,8 +269,8 @@
 
    ```
 
-1.  **Add the credentials for github, docker and kubernetes.**
-   - For Github credentials, create `Secret text` and add a personal access token
-   - For Dockerhub, click on `Username with password` and add your details
-   - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
-   ![alt text](img/image-5.png)
+5. **Add the credentials for github, docker and kubernetes.**
+       - For Github credentials, create `Secret text` and add a personal access token
+       - For Dockerhub, click on `Username with password` and add your details
+       - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
+       ![alt text](img/image-5.png)
