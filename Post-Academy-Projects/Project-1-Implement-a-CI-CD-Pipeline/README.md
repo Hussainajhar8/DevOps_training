@@ -181,6 +181,7 @@
            DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
            DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
            GIT_CREDENTIALS = 'github-credentials'
+           SSH_AGENT_CREDENTIALS = 'github-ssh-agent'
            KUBERNETES_CREDENTIALS = 'kube-config'
            KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
            KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
@@ -197,7 +198,7 @@
 
            stage('Run Tests') {
                steps {
-                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                   dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
                        script {
                            // Replace with your testing commands
                            sh 'npm install'
@@ -209,23 +210,25 @@
 
            stage('Merge to Main') {
                steps {
-                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
-                       script {
+                   script {
+                       sshagent(['github-ssh-agent']) {
                            sh 'git config --global user.email "hussainajhar8@gmail.com"'
                            sh 'git config --global user.name "hussainajhar8"'
+                           sh 'mkdir -p ~/.ssh && chmod 700 ~/.ssh'
+                           sh 'ssh-keyscan github.com >> ~/.ssh/known_hosts'
                            sh """
                            git checkout ${MAIN_BRANCH}
                            git merge ${DEV_BRANCH}
-                           git push origin ${MAIN_BRANCH}
+                           git push git@github.com:Hussainajhar8/DevOps_training.git ${MAIN_BRANCH}
                            """
                        }
-                   }
+                   } 
                }
            }
 
            stage('Build Docker Image') {
                steps {
-                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                   dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
                        script {
                            dockerImage = docker.build("${DOCKER_REGISTRY}:${env.BUILD_ID}")
                        }
@@ -235,7 +238,7 @@
 
            stage('Push Docker Image') {
                steps {
-                   dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                   dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
                        script {
                            docker.withRegistry('', "${DOCKER_REGISTRY_CREDENTIALS}") {
                                dockerImage.push("${env.BUILD_ID}")
@@ -245,6 +248,8 @@
                    }
                }
            }
+
+
 
            stage('Deploy to Kubernetes') {
                steps {
