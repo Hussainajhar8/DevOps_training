@@ -162,7 +162,7 @@
    - Create user
    - Go to `Manage Jenkins` -> `Settings` -> `Security`
    - Scroll to `Git Host Key Verification Configuration` and set `Host Key Verification Strategy` to `Accept First connection` then click `Save`
-   - Install Git, Docker, Docker pipeline and Kubernetes plugins
+   - Install Git, Docker, Docker pipeline, Kubernetes and SSH agent plugins
    - Create the credentials required for your pipeline.
   
 3. **Create an item as a pipeline in Jenkins.**
@@ -274,3 +274,4 @@
        - For Dockerhub, click on `Username with password` and add your details
        - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
        ![alt text](img/image-5.png)
+       - For SSH agent, click on `SSH Username with private key` and then choose a username and enter content of private key. (Make sure public key is on github account)

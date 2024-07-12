@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                dir('DevOps_training/Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
+                dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
                     script {
                         // Replace with your testing commands
                         sh 'npm install'
