@@ -1,6 +1,6 @@
 # Project-1-Implement-a-CI-CD-Pipeline
 
-## Create and Set-Up Jenkins Server
+### Create and Set-Up Jenkins Server
 
 1. **Setup an EC2 Instance on AWS**
 
