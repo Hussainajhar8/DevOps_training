@@ -398,4 +398,8 @@ sudo systemctl restart containerd.service
 sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cert-hash sha256:[hash]
 
 ```
- - run `cat $HOME/.kube/config` and store the contents locally and add as a secret file on Jenkins.
+
+4. **Update Jenkins**
+ - run on the kubernetes master node `cat $HOME/.kube/config` 
+ - Store the contents on a local file
+ - Update the kube-config credential with this file.
