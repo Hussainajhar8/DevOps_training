@@ -254,11 +254,15 @@
            stage('Deploy to Kubernetes') {
                steps {
                    script {
-                       withKubeConfig([credentialsId: "${KUBERNETES_CREDENTIALS}"]) {
                            sh """
-                           kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
-                           kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
+                           mkdir -p ~/.kube
+                           echo "$KUBERNETES_CREDENTIALS" > ~/.kube/config
                            """
+                           withEnv(["KUBERNETES_CREDENTIALS=~/.kube/config"]) {
+                           sh '''
+                           kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${KUBERNETES_DEPLOYMENT_NAME}=${DOCKER_REGISTRY}:latest
+                           kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
+                           '''
                        }
                    }
                }
