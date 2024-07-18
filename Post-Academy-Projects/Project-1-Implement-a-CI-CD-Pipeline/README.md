@@ -401,6 +401,6 @@ sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cer
 ```
 
 4. **Update Jenkins**:
- - run on the kubernetes master node `cat $HOME/.kube/config` 
- - Store the contents on a local file
- - Update the kube-config credential with this file.
+   - run on the kubernetes master node `cat $HOME/.kube/config`
+   - Store the contents on a local file
+   - Update the kube-config credential with this file.
