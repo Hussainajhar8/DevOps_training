@@ -280,3 +280,122 @@
        - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
        ![alt text](img/image-5.png)
        - For SSH agent, click on `SSH Username with private key` and then choose a username and enter content of private key. (Make sure public key is on github account)
+
+## Deploy kubernetes on Ubuntu virtual machine
+1. **Create VM with Ubuntu 22.04 LTS**:
+   - Use Ubuntu 22.04 LTS for the VM image.
+   - Create a virtual network (VNet) with CIDR range 10.0.0.0/16 and divide it into public and private subnets (e.g., public subnet: 10.0.0.0/24).
+   - Launch the VM in the public subnet.
+   
+2. **Network Security Group (NSG)**:
+   - Create a Network Security Group (NSG).
+   - Allow inbound traffic for SSH (TCP port 22), HTTP (TCP port 80), and custom TCP port 3000, 5000, 6443, 8443.
+
+3. **Configure the VM**:
+   - SSH into the VM and run the following commands
+
+```bash
+# Update and upgrade system
+
+sudo apt update -y
+sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y 
+
+# Install Docker
+
+sudo DEBIAN_FRONTEND=noninteractive apt install docker.io -y
+sudo systemctl enable docker
+# sudo systemctl status docker
+sudo systemctl start docker
+
+# Install Kubernetes
+
+`curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg`
+`echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list`
+sudo apt update -y
+sudo DEBIAN_FRONTEND=noninteractive apt install -y kubeadm=1.30.2-1.1 kubelet=1.30.2-1.1 kubectl=1.30.2-1.1
+sudo apt-mark hold kubeadm kubelet kubectl
+kubeadm version
+
+# Deploy Kubernetes
+
+## 1. Prepare for Deployment
+
+sudo swapoff -a
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+sudo vim /etc/modules-load.d/containerd.conf
+
+Add the following:
+overlay
+br_netfilter
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+sudo vim /etc/sysctl.d/kubernetes.conf
+
+# Add the following:
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+
+sudo sysctl --system
+
+## 2. Assign Hostname for Each Server Node
+
+sudo hostnamectl set-hostname master-node # use this command on master node
+sudo hostnamectl set-hostname worker01 # use this command on worker node
+sudo vim /etc/hosts
+
+# Add the IP and hostname of all nodes.
+
+## 3. Initialize Kubernetes on Master Node
+
+sudo vim /etc/default/kubelet
+
+# Add the following:
+KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
+
+sudo systemctl daemon-reload && sudo systemctl restart kubelet
+sudo vim /etc/docker/daemon.json
+
+# Add the following:
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+
+sudo systemctl daemon-reload && sudo systemctl restart docker
+sudo find / -type f -name "10-kubeadm.conf"
+sudo vim /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+# Add the following:
+Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
+
+sudo systemctl daemon-reload && sudo systemctl restart kubelet
+sudo kubeadm init --control-plane-endpoint=master-node --upload-certs
+
+## Now copy the kubeadm join command for worker nodes
+
+kubeadm join master-node:6443 --token q9bm3v.zwg1fynpljbovs1j \
+  --discovery-token-ca-cert-hash sha256:f4d50ca961d78f005782052d15c4663adff1c58b1ffa4a36ce0c0cc18cbc5847
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+## 4. Deploy Pod Network to Cluster
+
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
+## 5. Join any worker nodes to Cluster (execute on worker nodes)
+
+sudo systemctl stop apparmor && sudo systemctl disable apparmor
+sudo systemctl restart containerd.service
+sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cert-hash sha256:[hash]
+
+```
+ - run `cat $HOME/.kube/config` and store the contents locally and add as a secret file on Jenkins.
