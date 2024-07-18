@@ -282,11 +282,12 @@
        - For SSH agent, click on `SSH Username with private key` and then choose a username and enter content of private key. (Make sure public key is on github account)
 
 ## Deploy kubernetes on Ubuntu virtual machine
+
 1. **Create VM with Ubuntu 22.04 LTS**:
    - Use Ubuntu 22.04 LTS for the VM image.
    - Create a virtual network (VNet) with CIDR range 10.0.0.0/16 and divide it into public and private subnets (e.g., public subnet: 10.0.0.0/24).
    - Launch the VM in the public subnet.
-   
+
 2. **Network Security Group (NSG)**:
    - Create a Network Security Group (NSG).
    - Allow inbound traffic for SSH (TCP port 22), HTTP (TCP port 80), and custom TCP port 3000, 5000, 6443, 8443.
@@ -399,7 +400,7 @@ sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cer
 
 ```
 
-4. **Update Jenkins**
+4. **Update Jenkins**:
  - run on the kubernetes master node `cat $HOME/.kube/config` 
  - Store the contents on a local file
  - Update the kube-config credential with this file.
