@@ -81,9 +81,9 @@ pipeline {
                 script {
                         sh """
                         mkdir -p ~/.kube
-                        echo "$KUBERNETES_CREDENTIALS" > ~/.kube/config
+                        echo "$KUBERNETES_CREDENTIALS" > /var/lib/jenkins/.kube/config
                         """
-                        withEnv(["KUBERNETES_CREDENTIALS=~/.kube/config"]) {
+                        withEnv(["KUBERNETES_CREDENTIALS=/var/lib/jenkins/.kube/config"]) {
                         sh '''
                         kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${KUBERNETES_DEPLOYMENT_NAME}=${DOCKER_REGISTRY}:latest
                         kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
