@@ -427,7 +427,8 @@ sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cer
    - Run `cat $HOME/.kube/config` on the kubernetes master node.
    - Store the contents on a local file
    - Update the kube-config credential with this file.
-   - Add the public IP into the kubeadm config file 
+   - Add the public IP into the kubeadm config file
+
 ```bash
 # Generate a Basic Configuration File
 kubeadm config print init-defaults > kubeadm-config.yaml
