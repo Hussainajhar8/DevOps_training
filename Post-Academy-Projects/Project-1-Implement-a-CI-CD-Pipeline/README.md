@@ -425,7 +425,15 @@ sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cer
 
 4. **Update Jenkins**:
    - Run `cat $HOME/.kube/config` on the kubernetes master node.
-   - Store the contents on a local file
+   - Store the contents on a local file.
+   - Edit the server to include the private ip of the virutal machine running the master-node instead of the master-node hostname.
+   ```bash
+   apiVersion: v1
+   clusters:
+   - cluster:
+       certificate-authority-data: <base64-encoded-ca-cert>
+       server: https://172.31.28.117:6443
+   ```
    - Update the kube-config credential with this file.
    - Add the public IP into the kubeadm config file
 
