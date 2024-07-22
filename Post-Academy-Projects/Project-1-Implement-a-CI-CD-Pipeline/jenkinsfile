@@ -79,15 +79,11 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    withCredentials([file(credentialsId: 'kube-config', variable: 'KUBECONFIG')]) {
                         sh """
-                        mkdir -p ~/.kube
-                        echo "$KUBERNETES_CREDENTIALS" > /var/lib/jenkins/.kube/config
-                        """
-                        withEnv(["KUBERNETES_CREDENTIALS=/var/lib/jenkins/.kube/config"]) {
-                        sh '''
-                        kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${KUBERNETES_DEPLOYMENT_NAME}=${DOCKER_REGISTRY}:latest
+                        kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
                         kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
-                        '''
+                        """
                     }
                 }
             }
