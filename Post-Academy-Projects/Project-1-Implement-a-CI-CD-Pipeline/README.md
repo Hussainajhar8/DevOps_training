@@ -86,6 +86,25 @@
    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
    ```
 
+9. **Install kubectl**
+    ```bash
+    # Download the kubectl binary:
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+    # Install kubectl
+    chmod +x kubectl
+    sudo mv kubectl /usr/local/bin/
+
+    # Check the Jenkins user and ensure it has the correc PATH:
+    sudo su - jenkins
+    echo $PATH
+
+    # Add /usr/local/bin to the PATH if it's not already there:
+    sudo su - jenkins
+    echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
+    source ~/.bashrc
+    ```
+
 ## Set up Dockerfile
 
 1. **Create Dockerfile**
