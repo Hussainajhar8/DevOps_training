@@ -424,6 +424,35 @@ sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cer
 ```
 
 4. **Update Jenkins**:
-   - run on the kubernetes master node `cat $HOME/.kube/config`
+   - Run `cat $HOME/.kube/config` on the kubernetes master node.
    - Store the contents on a local file
    - Update the kube-config credential with this file.
+   - Add the public IP into the kubeadm config file 
+```bash
+# Generate a Basic Configuration File
+kubeadm config print init-defaults > kubeadm-config.yaml
+
+# Edit config
+vim kubeadm-config.yaml
+
+-------------------------------------------------------
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+apiServer:
+certSANs:
+- "34.243.102.252"  # Add your public IP address here
+-------------------------------------------------------
+
+# Recreate API Server Certificates
+sudo kubeadm init phase certs apiserver --config=kubeadm-config.yaml
+sudo kubeadm init phase kubeconfig all --config=kubeadm-config.yaml
+
+# Restart the Control Plane Components
+sudo systemctl restart kubelet
+
+# Verify the Configuration from the Jenkins machine
+KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
+```
