@@ -7,6 +7,7 @@ pipeline {
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
         GIT_CREDENTIALS = 'github-credentials'
         SSH_AGENT_CREDENTIALS = 'github-ssh-agent'
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
         KUBERNETES_CREDENTIALS = 'kube-config'
         KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
         KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
