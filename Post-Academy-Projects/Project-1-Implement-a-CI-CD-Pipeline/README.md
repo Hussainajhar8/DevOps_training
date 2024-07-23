@@ -196,11 +196,12 @@
        agent any
 
        environment {
-           DOCKER_IMAGE = 'project-1-sparta-app:latest'
+           DOCKER_IMAGE = 'project-1-sparta-app'
            DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
            DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
            GIT_CREDENTIALS = 'github-credentials'
            SSH_AGENT_CREDENTIALS = 'github-ssh-agent'
+           KUBECONFIG = '/var/lib/jenkins/.kube/config'
            KUBERNETES_CREDENTIALS = 'kube-config'
            KUBERNETES_DEPLOYMENT_NAME = 'project-1-sparta-app-deployment'
            KUBERNETES_SERVICE_NAME = 'project-1-sparta-app-svc'
@@ -272,16 +273,16 @@
 
            stage('Deploy to Kubernetes') {
                steps {
-                   script {
-                           sh """
-                           mkdir -p ~/.kube
-                           echo "$KUBERNETES_CREDENTIALS" > ~/.kube/config
-                           """
-                           withEnv(["KUBERNETES_CREDENTIALS=~/.kube/config"]) {
-                           sh '''
-                           kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${KUBERNETES_DEPLOYMENT_NAME}=${DOCKER_REGISTRY}:latest
-                           kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
-                           '''
+                   dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/') {
+                       script {
+                           withCredentials([file(credentialsId: 'kube-config', variable: 'KUBECONFIG')]) {
+                               sh """
+                               kubectl apply -f kubernetes-manifests/deployment.yaml
+                               kubectl apply -f kubernetes-manifests/service.yaml
+                               kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
+                               kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
+                               """
+                           }
                        }
                    }
                }
