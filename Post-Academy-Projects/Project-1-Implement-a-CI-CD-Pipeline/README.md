@@ -421,47 +421,53 @@ sudo systemctl stop apparmor && sudo systemctl disable apparmor
 sudo systemctl restart containerd.service
 sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cert-hash sha256:[hash]
 
+## 6. Ensure Jenkins has Correct Permissions
+kubectl create clusterrolebinding jenkins-cluster-admin --clusterrole=cluster-admin --user=admin
+
 ```
 
 4. **Update Jenkins**:
    - Run `cat $HOME/.kube/config` on the kubernetes master node.
    - Store the contents on a local file.
    - Edit the server to include the private ip of the virutal machine running the master-node instead of the master-node hostname.
-   ```bash
-   apiVersion: v1
-   clusters:
-   - cluster:
-       certificate-authority-data: <base64-encoded-ca-cert>
-       server: https://172.31.28.117:6443
-   ```
+     ```bash
+     apiVersion: v1
+     clusters:
+     - cluster:
+         certificate-authority-data: <base64-encoded-ca-cert>
+         server: https://172.31.28.117:6443
+     ```
    - Update the kube-config credential with this file.
    - Add the public IP into the kubeadm config file
 
-```bash
-# Generate a Basic Configuration File
-kubeadm config print init-defaults > kubeadm-config.yaml
+     ```bash
+     # Generate a Basic Configuration File
+     kubeadm config print init-defaults > kubeadm-config.yaml
 
-# Edit config
-vim kubeadm-config.yaml
+     # Edit config
+     vim kubeadm-config.yaml
 
--------------------------------------------------------
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: InitConfiguration
----
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: ClusterConfiguration
-apiServer:
-certSANs:
-- "34.243.102.252"  # Add your public IP address here
--------------------------------------------------------
+     -------------------------------------------------------
+     apiVersion: kubeadm.k8s.io/v1beta3
+     kind: InitConfiguration
+     ---
+     apiVersion: kubeadm.k8s.io/v1beta3
+     kind: ClusterConfiguration
+     apiServer:
+     certSANs:
+     - "34.243.102.252"  # Add your public IP address here
+     -------------------------------------------------------
 
-# Recreate API Server Certificates
-sudo kubeadm init phase certs apiserver --config=kubeadm-config.yaml
-sudo kubeadm init phase kubeconfig all --config=kubeadm-config.yaml
+     # Recreate API Server Certificates
+     sudo kubeadm init phase certs apiserver --config=kubeadm-config.yaml
+     sudo kubeadm init phase kubeconfig all --config=kubeadm-config.yaml
 
-# Restart the Control Plane Components
-sudo systemctl restart kubelet
+     # Restart the Control Plane Components
+     sudo systemctl restart kubelet
 
-# Verify the Configuration from the Jenkins machine
-KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
-```
+     # Verify the Configuration from the Jenkins machine
+     KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
+     ```
+   - Ensure DNS Resolution, Update `/etc/hosts` file on Jenkins machine
+   - Go to Jenkins Dashboard > Manage Jenkins > Manage Nodes and Clouds > Configure Clouds.
+Ensure the Kubernetes cloud configuration has the correct credentials and URL.
