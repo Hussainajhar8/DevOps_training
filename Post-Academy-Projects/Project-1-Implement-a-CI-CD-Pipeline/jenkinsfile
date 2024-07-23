@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'project-1-sparta-app:latest'
+        DOCKER_IMAGE = 'project-1-sparta-app'
         DOCKER_REGISTRY = 'hussainajhar32/project-1-sparta-app'
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub-credentials'
         GIT_CREDENTIALS = 'github-credentials'
