@@ -82,6 +82,8 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'kube-config', variable: 'KUBECONFIG')]) {
                         sh """
+                        kubectl apply -f kubernetes-manifests/deployment.yaml
+                        kubectl apply -f kubernetes-manifests/service.yaml
                         kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
                         kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
                         """
