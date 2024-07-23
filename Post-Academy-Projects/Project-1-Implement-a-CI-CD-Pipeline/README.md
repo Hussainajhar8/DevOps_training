@@ -470,6 +470,3 @@ kubectl create clusterrolebinding jenkins-cluster-admin --clusterrole=cluster-ad
      KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
      ```
    - Ensure DNS Resolution, Update hosts file on Jenkins machine `sudo vim /etc/hosts` and add the following line `<private-ip-of-kubernetes machine`> master-node
-`
-   - Go to Jenkins Dashboard > Manage Jenkins > Manage Nodes and Clouds > Configure Clouds.
-Ensure the Kubernetes cloud configuration has the correct credentials and URL.
