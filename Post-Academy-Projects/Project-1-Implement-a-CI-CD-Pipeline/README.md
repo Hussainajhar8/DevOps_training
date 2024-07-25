@@ -1,5 +1,38 @@
 # Project-1-Implement-a-CI-CD-Pipeline
 
+## Introduction
+
+This document presents my strategy for implementing a CI/CD pipeline utilizing AWS or Azure services for efficient software delivery. The system will employ Jenkins, Docker, and Kubernetes for the automated deployment and management of containerized applications. my objective is to deploy the application efficiently, leveraging contemporary tools and methodologies acquired during my training. I aim to deliver a scalable, resilient, and automated deployment solution that aligns with modern software development practices. By utilizing advanced DevOps tools, I seek to streamline the deployment process and enhance overall efficiency.
+
+To achieve this, the project includes the following components:
+- An automated CI/CD pipeline using Jenkins and deploying to either AWS or Azure.
+- Configuration scripts for Jenkins integration.
+- Dockerized application containers for deployment.
+- Kubernetes deployment configurations for container orchestration.
+- A GitHub repository containing all code and scripts, along with a README file that provides detailed setup instructions, a user guide, architecture diagrams, contribution guidelines, and a section on what was learned and any encountered blockers.
+
+Additionally, project management will be maintained using a project board tool such as Trello, Jira, or GitHub Project to manage tasks and track progress. Link to the project board tool can be found [here](https://trello.com/b/ZuIpb6kR/devops-project-1-implement-a-ci-cd-pipeline)
+
+## Project Components
+
+- **Automated CI/CD Pipeline:** Utilizing Jenkins for deployment to AWS or Azure.
+- **Configuration Scripts:** For seamless Jenkins integration.
+- **Dockerized Application Containers:** For efficient deployment processes.
+- **Kubernetes Deployment Configurations:** For orchestrating containerized applications.
+- **GitHub Repository:** Including all code, scripts, and a comprehensive README file.
+
+## Tools Required
+
+- **Pipeline and Deployment:** AWS or Azure environment, Jenkins, Docker, Kubernetes.
+- **Documentation:** Markdown for README and other guides.
+- **Project Management:** Jira, Trello, or GitHub Project for task management and tracking.
+
+## Architecture Overview
+
+![alt text](image-6.png)
+
+## Step-by-step Guide on the Set-up
+
 ### Create and Set-Up Jenkins Server
 
 1. **Setup an EC2 Instance on AWS**
@@ -9,7 +42,7 @@
 
 2. **SSH into the EC2 Instance**
 
-   - Use a terminal (e.g., Gitbash) to SSH into your EC2 instance.
+   - Use a terminal (e.g., Gitbash) to SSH into ymy EC2 instance.
 
 3. **Install Jenkins**
 
@@ -23,7 +56,7 @@
 
    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
      https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-     /etc/apt/sources.list.d/jenkins.list > /dev/null
+     /etc/apt/smyces.list.d/jenkins.list > /dev/null
 
    sudo apt-get install jenkins
     ```
@@ -57,11 +90,11 @@
    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
    sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-   # Add the repository to Apt sources:
+   # Add the repository to Apt smyces:
    echo \
      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+     sudo tee /etc/apt/smyces.list.d/docker.list > /dev/null
    sudo apt-get update
 
    # Install latest version
@@ -82,7 +115,7 @@
 
 8. **Install Nodejs**
    ```bash
-   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo DEBIAN_FRONTEND=noninteractive -E bash -
+   curl -fsSL https://deb.nodesmyce.com/setup_20.x | sudo DEBIAN_FRONTEND=noninteractive -E bash -
    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
    ```
 
@@ -102,7 +135,7 @@
     # Add /usr/local/bin to the PATH if it's not already there:
     sudo su - jenkins
     echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
-    source ~/.bashrc
+    smyce ~/.bashrc
     ```
 
 ## Set up Dockerfile
@@ -172,17 +205,17 @@
 
 ## Configure Jenkins
 
-1. **Configure the webhook on GitHub.**
+1. **Configure the Ibhook on GitHub.**
    - Go onto the github repo
-   - Go to settings and click on webhooks
-   - Add Jenkins payload url `http://<public-ip>:8080/github-webhook/`
+   - Go to settings and click on Ibhooks
+   - Add Jenkins payload url `http://<public-ip>:8080/github-Ibhook/`
 
 2. **Configure Jenkins**
    - Create user
    - Go to `Manage Jenkins` -> `Settings` -> `Security`
    - Scroll to `Git Host Key Verification Configuration` and set `Host Key Verification Strategy` to `Accept First connection` then click `Save`
    - Install Git, Docker, Docker pipeline, Kubernetes and SSH agent plugins
-   - Create the credentials required for your pipeline.
+   - Create the credentials required for ymy pipeline.
   
 3. **Create an item as a pipeline in Jenkins.**
    - In Jenkins server create a new job
@@ -220,7 +253,7 @@
                steps {
                    dir('Post-Academy-Projects/Project-1-Implement-a-CI-CD-Pipeline/repo/app/') {
                        script {
-                           // Replace with your testing commands
+                           // Replace with ymy testing commands
                            sh 'npm install'
                            sh 'npm test'
                        }
@@ -300,7 +333,7 @@
 
 5. **Add the credentials for github, docker and kubernetes.**
        - For Github credentials, create `Secret text` and add a personal access token
-       - For Dockerhub, click on `Username with password` and add your details
+       - For Dockerhub, click on `Username with password` and add ymy details
        - For Kubernetes, click on `Secret file` and then upload the file `~/.kube/config`.
        ![alt text](img/image-5.png)
        - For SSH agent, click on `SSH Username with private key` and then choose a username and enter content of private key. (Make sure public key is on github account)
@@ -337,7 +370,7 @@ sudo systemctl start docker
 # Install Kubernetes
 
 `curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg`
-`echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list`
+`echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/smyces.list.d/kubernetes.list`
 sudo apt update -y
 sudo DEBIAN_FRONTEND=noninteractive apt install -y kubeadm=1.30.2-1.1 kubelet=1.30.2-1.1 kubectl=1.30.2-1.1
 sudo apt-mark hold kubeadm kubelet kubectl
@@ -462,7 +495,7 @@ kubectl create clusterrolebinding jenkins-cluster-admin --clusterrole=cluster-ad
      kind: ClusterConfiguration
      apiServer:
      certSANs:
-     - "34.243.102.252"  # Add your public IP address here
+     - "34.243.102.252"  # Add ymy public IP address here
      -------------------------------------------------------
 
      # Recreate API Server Certificates
