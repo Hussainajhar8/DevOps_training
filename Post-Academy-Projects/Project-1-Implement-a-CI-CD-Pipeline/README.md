@@ -317,9 +317,11 @@
    - Allow inbound traffic for SSH (TCP port 22), HTTP (TCP port 80), and custom TCP port 3000, 5000, 6443, 8443.
 
 3. **Configure the VM**:
-   - SSH into the VM and run the following commands
+   - Run the following as a script in userdata.
 
 ```bash
+#!/bin/bash
+
 # Update and upgrade system
 
 sudo apt update -y
@@ -341,6 +343,10 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y kubeadm=1.30.2-1.1 kubelet=1.
 sudo apt-mark hold kubeadm kubelet kubectl
 kubeadm version
 
+```
+   - SSH into the VM and run the following commands:
+
+```bash
 # Deploy Kubernetes
 
 ## 1. Prepare for Deployment
