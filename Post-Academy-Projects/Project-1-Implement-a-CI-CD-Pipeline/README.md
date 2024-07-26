@@ -29,7 +29,7 @@ Additionally, project management will be maintained using a project board tool s
 
 ## Architecture Overview
 
-![alt text](image-6.png)
+![alt text](img/image-6.png)
 
 ## Step-by-step Guide on the Set-up
 
