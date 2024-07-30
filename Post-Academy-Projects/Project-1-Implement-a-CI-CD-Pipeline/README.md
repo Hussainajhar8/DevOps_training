@@ -205,10 +205,10 @@ Additionally, project management will be maintained using a project board tool s
 
 ## Configure Jenkins
 
-1. **Configure the Ibhook on GitHub.**
+1. **Configure the webhook on GitHub.**
    - Go onto the github repo
    - Go to settings and click on Ibhooks
-   - Add Jenkins payload url `http://<public-ip>:8080/github-Ibhook/`
+   - Add Jenkins payload url `http://<public-ip>:8080/github-webhook/`
 
 2. **Configure Jenkins**
    - Create user
