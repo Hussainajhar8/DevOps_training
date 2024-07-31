@@ -10,8 +10,8 @@
 ### Jenkins Installation
 
 - [x] Install Jenkins on a server or use Jenkins in a Docker container
-- [ ] Configure Jenkins for access
-- [ ] Install necessary plugins (e.g., Git, Docker, Kubernetes plugins)
+- [x] Configure Jenkins for access
+- [x] Install necessary plugins (e.g., Git, Docker, Kubernetes plugins)
 
 ### Jenkins Configuration Scripts
 
@@ -28,17 +28,13 @@
 ### Dockerfile Creation
 
 - [x] Write Dockerfiles for application(s)
-- [ ] Optimize and secure Docker images
-
-### Docker Compose (if needed)
-
-- [ ] Create `docker-compose.yml` file for multi-container applications
+- [x] Optimize and secure Docker images
 
 ## Kubernetes Deployment
 
 ### Kubernetes Cluster Setup
 
-- [ ] Set up a Kubernetes cluster on AWS (EKS) or Azure (AKS)
+- [x] Set up a Kubernetes cluster on AWS
 
 ### Kubernetes Manifests
 
@@ -48,8 +44,8 @@
 
 ### Pipeline Configuration
 
-- [ ] Configure Jenkins pipelines (using Jenkinsfile)
-- [ ] Automate build, test, and deployment processes
+- [x] Configure Jenkins pipelines (using Jenkinsfile)
+- [x] Automate build, test, and deployment processes
 
 ### Integration with GitHub
 
@@ -57,21 +53,21 @@
 
 ### Deployment to Kubernetes
 
-- [ ] Automate deployment of Docker containers to Kubernetes cluster through Jenkins
+- [x] Automate deployment of Docker containers to Kubernetes cluster through Jenkins
 
 ## Documentation
 
 ### User Guide
 
-- [ ] Write a user guide explaining setup and use of the CI/CD pipeline
+- [x] Write a user guide explaining setup and use of the CI/CD pipeline
 
 ### Architecture Diagrams
 
-- [ ] Create diagrams showing pipeline architecture and deployment flow
+- [x] Create diagrams showing pipeline architecture and deployment flow
 
 ### Contribution Guidelines
 
-- [ ] Provide guidelines for future developers
+- [x] Provide guidelines for future developers
 
 ## Project Management
 
@@ -87,15 +83,15 @@
 
 ### Video Creation
 
-- [ ] Record a 5-minute video explaining the project
-  - [ ] Explain the project board
-  - [ ] Discuss components
-  - [ ] Demonstrate the working system
+- [x] Record a 5-minute video explaining the project
+  - [x] Explain the project board
+  - [x] Discuss components
+  - [x] Demonstrate the working system
 
 ### Documentation Package
 
 - [ ] Prepare a PDF copy of the README
-- [ ] Include a link/invitation to the project repo
+- [x] Include a link/invitation to the project repo
 
 ## Tools Required
 
