@@ -312,6 +312,7 @@ Additionally, project management will be maintained using a project board tool s
                                sh """
                                kubectl apply -f kubernetes-manifests/deployment.yaml
                                kubectl apply -f kubernetes-manifests/service.yaml
+                               kubectl apply -f kubernetes-manifests/ingress.yaml
                                kubectl set image deployment/${KUBERNETES_DEPLOYMENT_NAME} ${DOCKER_IMAGE}=${DOCKER_REGISTRY}:latest
                                kubectl rollout status deployment/${KUBERNETES_DEPLOYMENT_NAME}
                                """
@@ -509,3 +510,11 @@ kubectl create clusterrolebinding jenkins-cluster-admin --clusterrole=cluster-ad
      KUBECONFIG=/var/lib/jenkins/.kube/config kubectl get nodes
      ```
    - Ensure DNS Resolution, Update hosts file on Jenkins machine `sudo vim /etc/hosts` and add the following line `<private-ip-of-kubernetes machine`> master-node
+
+## Production
+
+   - Ensure the webhook is configured, the jenkins and kubernetes instances are up and running.
+   - Push a code change locally to github to trigger the pipeline.
+   - Application should be available on `http://<kubernetes-public-node-ip>:30080/`
+
+Congratulations you have successfully created a Jenkins Pipeline which updates a kubernetes deployment.
