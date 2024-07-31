@@ -2,16 +2,9 @@
 
 ## Introduction
 
-This document presents my strategy for implementing a CI/CD pipeline utilizing AWS or Azure services for efficient software delivery. The system will employ Jenkins, Docker, and Kubernetes for the automated deployment and management of containerized applications. my objective is to deploy the application efficiently, leveraging contemporary tools and methodologies acquired during my training. I aim to deliver a scalable, resilient, and automated deployment solution that aligns with modern software development practices. By utilizing advanced DevOps tools, I seek to streamline the deployment process and enhance overall efficiency.
+This document outlines my strategy for implementing a CI/CD pipeline using AWS for efficient software delivery. Utilizing Jenkins, Docker, and Kubernetes, my goal is to deploy applications efficiently with contemporary tools and methodologies. I aim to create a scalable, resilient, and automated deployment solution that aligns with modern practices, streamlining the process and enhancing overall efficiency.
 
-To achieve this, the project includes the following components:
-- An automated CI/CD pipeline using Jenkins and deploying to either AWS or Azure.
-- Configuration scripts for Jenkins integration.
-- Dockerized application containers for deployment.
-- Kubernetes deployment configurations for container orchestration.
-- A GitHub repository containing all code and scripts, along with a README file that provides detailed setup instructions, a user guide, architecture diagrams, contribution guidelines, and a section on what was learned and any encountered blockers.
-
-Additionally, project management will be maintained using a project board tool such as Trello, Jira, or GitHub Project to manage tasks and track progress. Link to the project board tool can be found [here](https://trello.com/b/ZuIpb6kR/devops-project-1-implement-a-ci-cd-pipeline)
+Project management will be maintained using a project board tool such as Trello, Jira, or GitHub Project to manage tasks and track progress. Link to the project board tool can be found [here](https://trello.com/b/ZuIpb6kR/devops-project-1-implement-a-ci-cd-pipeline)
 
 ## Project Components
 
