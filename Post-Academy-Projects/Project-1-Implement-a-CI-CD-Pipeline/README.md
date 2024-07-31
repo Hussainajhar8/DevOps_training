@@ -506,8 +506,8 @@ kubectl create clusterrolebinding jenkins-cluster-admin --clusterrole=cluster-ad
 
 ## Production
 
-   - Ensure the webhook is configured, the jenkins and kubernetes instances are up and running.
-   - Push a code change locally to github to trigger the pipeline.
-   - Application should be available on `http://<kubernetes-public-node-ip>:30080/`
+- Ensure the webhook is configured, the jenkins and kubernetes instances are up and running.
+- Push a code change locally to github to trigger the pipeline.
+- Application should be available on `http://<kubernetes-public-node-ip>:30080/`
 
 Congratulations you have successfully created a Jenkins Pipeline which updates a kubernetes deployment.
